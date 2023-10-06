@@ -1,0 +1,12 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    background: black;
+}
+
+canvas {
+    background: url("../assests/Canvas_bg.jpg");
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+}

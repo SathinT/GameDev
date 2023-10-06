@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TANK WARZz</title>
+    <link rel="stylesheet" href="css/Start_Page.css">
+    <link rel="stylesheet" href="../lib/css/bootstrap.rtl.css">
+</head>
+<body>
+    <div class="Back_img"></div>
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Button Redirect</title>
+    </head>
+    <body>
+    <button id="playButton">
+        <span>PLAY</span>
+        <div class="top"></div>
+        <div class="left"></div>
+        <div class="bottom"></div>
+        <div class="right"></div>
+    </button>
+
+    <script>
+        var playButton = document.getElementById("playButton");
+        playButton.addEventListener("click", function() {
+            window.location.href = "Game_Canvas.html";
+        });
+    </script>
+
+    <audio src="assests/audio/back_music.mp3" id="bg_music"></audio>
+    </body>
+    </html>
+
+</body>
+</html>
