@@ -10,6 +10,7 @@ const bulletWidth = 5;
 const bulletHeight = 10;
 const enemyWidth = 50;
 const enemyHeight = 50;
+let isGameOver = false;
 
 const tank = {
     x: canvasWidth / 2 - tankWidth / 2,
@@ -57,16 +58,23 @@ function spawnEnemy() {
 }
 
 function update() {
-    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+    if (!isGameOver) {
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-    drawTank();
-    drawBullets();
-    drawEnemies();
-    moveBullets();
-    moveEnemies();
-    detectCollisions();
+        drawTank();
+        drawBullets();
+        drawEnemies();
+        moveBullets();
+        moveEnemies();
+        detectCollisions();
 
-    requestAnimationFrame(update);
+        requestAnimationFrame(update);
+    } else {
+        // Game over logic, e.g., display a game over message
+        ctx.fillStyle = "black";
+        ctx.font = "48px Arial";
+        ctx.fillText("Game Over", canvasWidth / 2 - 100, canvasHeight / 2);
+    }
 }
 
 function drawTank() {
@@ -120,4 +128,14 @@ function detectCollisions() {
             }
         });
     });
+
+    // Check if any enemy has reached the bottom of the screen
+    for (let i = enemies.length - 1; i >= 0; i--) {
+        const enemy = enemies[i];
+        if (enemy.y + enemyHeight > canvasHeight) {
+            // Enemy hit the bottom, set the game over flag
+            isGameOver = true;
+            break;
+        }
+    }
 }
