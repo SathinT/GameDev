@@ -2,6 +2,8 @@
 
 A Single Player Mouse Controlled Game Created Using HTML, CSS And JS.
 
-## Preview
+## Game Preview
 
-<iframe src="[https://your-game-preview-url.com](https://sathint.github.io/GameDev/)" width="800" height="600"></iframe>
+![Game Preview](assests/ReadMe1.jpg)
+
+You can play the game by clicking [here](https://sathint.github.io/GameDev/).
