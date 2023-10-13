@@ -2,6 +2,7 @@ body {
     margin: 0;
     overflow: hidden;
     background: black;
+    cursor: url('../assests/Cursor.png'), auto;
 }
 
 canvas {

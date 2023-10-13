@@ -46,6 +46,9 @@ function shoot() {
         speed: 10
     };
     bullets.push(bullet);
+
+    const bulletAudio = document.getElementById("shoot");
+    bulletAudio.play();
 }
 
 function spawnEnemy() {
@@ -70,72 +73,92 @@ function update() {
 
         requestAnimationFrame(update);
     } else {
-        // Game over logic, e.g., display a game over message
-        ctx.fillStyle = "black";
-        ctx.font = "48px Arial";
-        ctx.fillText("Game Over", canvasWidth / 2 - 100, canvasHeight / 2);
+        let opacity = 0;
+        let animationInterval = setInterval(function () {
+            // Clear the canvas
+            ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+            // Draw the fading overlay
+            ctx.fillStyle = "rgba(0, 0, 0, " + opacity + ")";
+            ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+            // Display the "Game Over" message and "Camp Destroyed!" with fading effect
+            ctx.fillStyle = "white";
+            ctx.font = "48px Arial";
+            ctx.fillText("Game Over", canvasWidth / 2 - 100, canvasHeight / 2 - 24);
+
+            ctx.fillStyle = "red";
+            ctx.font = "52px Arial";
+            ctx.fillText("Camp Destroyed!", canvasWidth / 2 - 100, canvasHeight / 2 + 24);
+
+            if (opacity < 0.7) {
+                opacity += 0.01;
+            } else {
+                clearInterval(animationInterval);
+                // Add code for other game over actions or user interaction
+                // For example, a restart button, displaying score, etc.
+            }
+        }, 30);
     }
-}
 
-function drawTank() {
-    ctx.drawImage(tank.image, tank.x, tank.y, tankWidth, tankHeight);
-}
 
-function drawBullets() {
-    ctx.fillStyle = "red";
-    bullets.forEach(bullet => {
-        ctx.fillRect(bullet.x, bullet.y, bulletWidth, bulletHeight);
-    });
-}
+    function drawTank() {
+        ctx.drawImage(tank.image, tank.x, tank.y, tankWidth, tankHeight);
+    }
 
-function drawEnemies() {
-    ctx.fillStyle = "blue";
-    enemies.forEach(enemy => {
-        ctx.fillRect(enemy.x, enemy.y, enemyWidth, enemyHeight);
-    });
-}
+    function drawBullets() {
+        ctx.fillStyle = "red";
+        bullets.forEach(bullet => {
+            ctx.fillRect(bullet.x, bullet.y, bulletWidth, bulletHeight);
+        });
+    }
 
-function moveBullets() {
-    bullets.forEach((bullet, index) => {
-        bullet.y -= bullet.speed;
-        if (bullet.y < 0) {
-            bullets.splice(index, 1);
-        }
-    });
-}
+    function drawEnemies() {
+        ctx.fillStyle = "blue";
+        enemies.forEach(enemy => {
+            ctx.fillRect(enemy.x, enemy.y, enemyWidth, enemyHeight);
+        });
+    }
 
-function moveEnemies() {
-    enemies.forEach((enemy, index) => {
-        enemy.y += enemy.speed;
-        if (enemy.y > canvasHeight) {
-            enemies.splice(index, 1);
-        }
-    });
-}
-
-function detectCollisions() {
-    bullets.forEach((bullet, bulletIndex) => {
-        enemies.forEach((enemy, enemyIndex) => {
-            if (
-                bullet.x < enemy.x + enemyWidth &&
-                bullet.x + bulletWidth > enemy.x &&
-                bullet.y < enemy.y + enemyHeight &&
-                bullet.y + bulletHeight > enemy.y
-            ) {
-                // Bullet hit an enemy, remove both the bullet and enemy.
-                bullets.splice(bulletIndex, 1);
-                enemies.splice(enemyIndex, 1);
+    function moveBullets() {
+        bullets.forEach((bullet, index) => {
+            bullet.y -= bullet.speed;
+            if (bullet.y < 0) {
+                bullets.splice(index, 1);
             }
         });
-    });
+    }
 
-    // Check if any enemy has reached the bottom of the screen
-    for (let i = enemies.length - 1; i >= 0; i--) {
-        const enemy = enemies[i];
-        if (enemy.y + enemyHeight > canvasHeight) {
-            // Enemy hit the bottom, set the game over flag
-            isGameOver = true;
-            break;
+    function moveEnemies() {
+        enemies.forEach((enemy, index) => {
+            enemy.y += enemy.speed;
+            if (enemy.y > canvasHeight) {
+                enemies.splice(index, 1);
+            }
+        });
+    }
+
+    function detectCollisions() {
+        bullets.forEach((bullet, bulletIndex) => {
+            enemies.forEach((enemy, enemyIndex) => {
+                if (
+                    bullet.x < enemy.x + enemyWidth &&
+                    bullet.x + bulletWidth > enemy.x &&
+                    bullet.y < enemy.y + enemyHeight &&
+                    bullet.y + bulletHeight > enemy.y
+                ) {
+                    bullets.splice(bulletIndex, 1);
+                    enemies.splice(enemyIndex, 1);
+                }
+            });
+        });
+
+        for (let i = enemies.length - 1; i >= 0; i--) {
+            const enemy = enemies[i];
+            if (enemy.y + enemyHeight > canvasHeight) {
+                isGameOver = true;
+                break;
+            }
         }
     }
 }

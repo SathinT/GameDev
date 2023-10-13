@@ -3,7 +3,9 @@ html{
     height: 100vh;
     background: black;
     width: 100vh;
-    cursor: url("../assests/Cursor.png") 17.5 17.5, auto;
+}
+body {
+    cursor: url('../assests/Cursor.png'), auto;
 }
 .Back_img{
     background-image: url("../assests/Game start page.jpg");
